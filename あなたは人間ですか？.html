@@ -3,8 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>あなたは人間？</title>
+  <title>あなたは人間？</title> 
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
+  <!-- Don't use this in production: -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
 
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const se = new Audio('tada.wav');
+    const App = () => {
+      const [verified, setVerified] = React.useState(false);
+      React.useEffect(() => {
+        grecaptcha.render('html_element', {
+          sitekey: '6Le1Q-4aAAAAAPxiA-8un2vTzU5PoCw9-wWwD7Wr',
+          callback: (response) => {
+            se.play();
+            setVerified(true);
+          }
+        });
+      }, []);
+      return (
+        <div>
+          {verified ? (
+            <section className="hero is-primary is-fullheight">
+              <div className="hero-body">
+                <div className="container has-text-centered">
+                  <p className="title">
+                    おめでとうございます。あなたは人間です。
+                  </p>
+                  <p className="subtitle">
+                    ご安心ください。あなたはテストを突破することにより人間だと証明されました。
+                  </p>
+                </div>
+              </div>
+            </section>
+          ) : (
+            <section className="hero is-fullheight">
+              <div className="hero-body">
+                <div className="container has-text-centered">
+                  <p className="title">
+                    自分はロボットではないかと不安な方へ
+                  </p>
+                  <p className="subtitle">
+                    下のチェックボックスをクリックして確かめてみましょう。
+<script async src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+  // How this code snippet works:
+  // This logic overwrites the default behavior of `grecaptcha.ready()` to
+  // ensure that it can be safely called at any time. When `grecaptcha.ready()`
+  // is called before reCAPTCHA is loaded, the callback function that is passed
+  // by `grecaptcha.ready()` is enqueued for execution after reCAPTCHA is
+  // loaded.
+  if(typeof grecaptcha === 'undefined') {
+    grecaptcha = {};
+  }
+  grecaptcha.ready = function(cb){
+    if(typeof grecaptcha === 'undefined') {
+      // window.__grecaptcha_cfg is a global variable that stores reCAPTCHA's
+      // configuration. By default, any functions listed in its 'fns' property
+      // are automatically executed when reCAPTCHA loads.
+      const c = '___grecaptcha_cfg';
+      window[c] = window[c] || {};
+      (window[c]['fns'] = window[c]['fns']||[]).push(cb);
+    } else {
+      cb();
+    }
+  }
+
+  // Usage
+  grecaptcha.ready(function(){
+    grecaptcha.render("container", {
+      sitekey: "ABC-123"
+    });
+  });
+</script>
 </body>
 
 </html>
